@@ -301,7 +301,7 @@ export default function App() {
         </div>
 
         {/* Central Elegance Card Container */}
-        <div className="bg-white rounded-3xl shadow-sm border border-neutral-100 overflow-hidden flex flex-col transition-all duration-300">
+        <div className="bg-white rounded-none shadow-sm border border-neutral-200 overflow-hidden flex flex-col transition-all duration-300">
           
           {/* Top Progress Bar - Spans entirely left to right */}
           <div className="w-full bg-neutral-100 h-1.5 relative">
@@ -350,7 +350,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleBack}
-                  className="h-11 px-4 rounded-xl border border-neutral-250 text-neutral-600 font-medium text-sm flex items-center justify-center gap-1.5 hover:bg-neutral-50 active:scale-95 transition-all duration-150 cursor-pointer"
+                  className="h-11 px-4 rounded-none border border-neutral-250 text-neutral-600 font-medium text-sm flex items-center justify-center gap-1.5 hover:bg-neutral-50 active:scale-95 transition-all duration-150 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" />
                   <span>Voltar</span>
@@ -365,7 +365,7 @@ export default function App() {
                 id="nextStepButton"
                 onClick={handleNext}
                 disabled={!isStepValid}
-                className={`h-11 px-5 rounded-xl text-white font-medium text-sm flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 shadow-xs active:scale-97 flex-1 xs:flex-initial ${
+                className={`h-11 px-5 rounded-none text-white font-medium text-sm flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 shadow-xs active:scale-97 flex-1 xs:flex-initial ${
                   isStepValid
                     ? 'bg-sage-400 hover:bg-sage-500 shadow-sage-200/50'
                     : 'bg-neutral-250 text-neutral-400 cursor-not-allowed border-none'
@@ -404,7 +404,7 @@ export default function App() {
               initial={{ scale: 0.93, y: 15 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.93, y: 15 }}
-              className="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full text-center shadow-xl border border-neutral-100"
+              className="bg-white rounded-none p-6 md:p-8 max-w-sm w-full text-center shadow-xl border border-neutral-200"
             >
               <div className="w-16 h-16 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-sage-100">
                 <CheckCircle2 className="w-9 h-9 text-sage-500 animate-wiggle" />
@@ -424,7 +424,7 @@ export default function App() {
                   onClick={() => {
                     sendApplicationToWhatsApp();
                   }}
-                  className="w-full h-11 bg-sage-400 hover:bg-sage-500 text-white font-medium rounded-xl text-sm transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-98"
+                  className="w-full h-11 bg-sage-400 hover:bg-sage-500 text-white font-medium rounded-none text-sm transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-98"
                 >
                   <Send className="w-4 h-4" />
                   <span>Reabrir WhatsApp</span>
@@ -436,7 +436,7 @@ export default function App() {
                     setShowSuccessModal(false);
                     // Reset or let the user choose
                   }}
-                  className="w-full h-10 border border-neutral-250 hover:bg-neutral-50 text-neutral-650 font-medium rounded-xl text-xs transition-all duration-150 cursor-pointer"
+                  className="w-full h-10 border border-neutral-250 hover:bg-neutral-50 text-neutral-650 font-medium rounded-none text-xs transition-all duration-150 cursor-pointer"
                 >
                   Voltar ao site
                 </button>
