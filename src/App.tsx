@@ -277,9 +277,9 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen w-full flex flex-col justify-between p-4 md:p-6 bg-[#F5F5F5]">
+    <main className="min-h-screen w-full flex flex-col p-4 md:p-6 bg-[#F5F5F5]">
       {/* Centered Master Layout wrapper */}
-      <div className="w-full max-w-lg mx-auto my-auto flex flex-col justify-center min-h-[80vh]">
+      <div className="w-full max-w-lg mx-auto mt-2 md:mt-4 mb-8 flex flex-col">
         
         {/* Discrete Top brand indicator */}
         <div className="flex items-center justify-between px-2 mb-4">
