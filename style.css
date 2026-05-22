@@ -1,16 +1,64 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap');
 
 html {
-  font-size: 17.5px;
-  overflow-x: hidden;
-  max-width: 100%;
+  font-size: 15.5px; /* Safe compact baseline font scale for ultra-small mobile widths */
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 375px) {
+  html {
+    font-size: 16px; /* Smooth transition for medium-sized mobile devices */
+  }
+}
+
+@media (min-width: 420px) {
+  html {
+    font-size: 16.5px; /* Intermediate scaling for larger phone dimensions */
+  }
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: 17.5px; /* Desktop standard scaling */
+  }
+}
+
+/* Comprehensive box scaling resets to protect container sizing constraints */
+*, ::before, ::after {
+  box-sizing: border-box !important;
 }
 
 body {
   background-color: #ffffff;
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  max-width: 100%;
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  -webkit-text-size-adjust: 100%; /* Prevent automatic font scaling on orientation changes */
+}
+
+/* Ensure components, inputs, buttons, and graphics are contained at or below 100% width */
+svg, img, iframe, canvas, select, input, textarea, button {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Definitively prevent autofocus and focus zoom in mobile browsers by keeping inputs >= 16px on mobile viewports */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 /* Accent element font family settings */
