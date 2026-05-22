@@ -355,72 +355,121 @@ function navigateToStep(targetIndex) {
 function sendApplicationToWhatsApp() {
   const number = '5593996589790';
 
-  const fNome = data.nome.trim();
-  const fIdade = data.idade.trim();
-  const fBairro = data.bairro.trim();
-  const fFilhos = data.possuiFilhos;
-  const fQtdFilhos = data.possuiFilhos === 'Sim' ? data.quantidadeFilhos : 'Não se aplica';
-  const fWhatsapp = data.whatsapp.trim();
-  const fSocial = data.redeSocial.trim() || 'Não informada';
-  const fTrabBaba = data.trabalhouComoBaba;
-  const fTempoExp = data.trabalhouComoBaba === 'Sim' ? data.tempoExperiencia : 'Não se aplica';
-  const fTranspProprio = data.possuiTransporteProprio;
-  const fTranspUtilizado = data.transporteUtilizado;
-  const fDispostaAtiv = data.dispostaAtividades;
-  const fProbSaude = data.possuiProblemaSaude;
-  const fDescLimitacao = data.possuiProblemaSaude === 'Sim' ? data.descricaoLimitacao.trim() : 'Não se aplica';
-  const fPretensao = data.pretensaoSalarial;
+  const fNome = (data.nome || '').trim().toUpperCase();
+  const rawIdade = (data.idade || '').trim().toUpperCase();
+  const fIdade = /^\d+$/.test(rawIdade) ? rawIdade + ' ANOS' : rawIdade;
+  const fBairro = (data.bairro || '').trim().toUpperCase();
+  const fFilhos = (data.possuiFilhos || '').trim().toUpperCase();
+  const fQtdFilhos = (data.possuiFilhos === 'Sim' ? (data.quantidadeFilhos || '') : 'Não se aplica').trim().toUpperCase();
+  const fWhatsapp = (data.whatsapp || '').trim().toUpperCase();
+  const fSocial = ((data.redeSocial || '').trim() || 'Não informada').toUpperCase();
+  const fTrabBaba = (data.trabalhouComoBaba || '').trim().toUpperCase();
+  const fTempoExp = (data.trabalhouComoBaba === 'Sim' ? (data.tempoExperiencia || '') : 'Não se aplica').trim().toUpperCase();
+  const fTranspProprio = (data.possuiTransporteProprio || '').trim().toUpperCase();
+  const fTranspUtilizado = (data.possuiTransporteProprio === 'Sim' ? (data.transporteUtilizado || '') : 'Não se aplica').trim().toUpperCase();
+  const fDispostaAtiv = (data.dispostaAtividades || '').trim().toUpperCase();
+  const fProbSaude = (data.possuiProblemaSaude || '').trim().toUpperCase();
+  const fDescLimitacao = (data.possuiProblemaSaude === 'Sim' ? ((data.descricaoLimitacao || '').trim() || 'NENHUMA') : 'NENHUMA').trim().toUpperCase();
+  const fPretensao = (data.pretensaoSalarial || '').trim().toUpperCase();
 
   const dateStr = new Date().toLocaleDateString('pt-BR');
   const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-  const message = `NOVA CANDIDATURA PARA BABÁ
+  const message = `👶 NOVA CANDIDATURA PARA BABÁ
 
-*DADOS PESSOAIS*
+━━━━━━━━━━━━━━
 
-*Nome:* ${fNome}
-*Idade:* ${fIdade}
-*Bairro:* ${fBairro}
-*Possui filhos:* ${fFilhos}
-*Quantidade de filhos:* ${fQtdFilhos}
+👤 DADOS PESSOAIS
 
-*CONTATO*
+NOME:
+${fNome}
 
-*WhatsApp:* ${fWhatsapp}
-*Rede social:* ${fSocial}
+IDADE:
+${fIdade}
 
-*EXPERIÊNCIA*
+📍 BAIRRO:
+${fBairro}
 
-*Já trabalhou como babá:* ${fTrabBaba}
-*Tempo de experiência:* ${fTempoExp}
+👨👩👧 FILHOS:
+${fFilhos}
 
-*TRANSPORTE*
+QUANTIDADE:
+${fQtdFilhos}
 
-*Possui transporte próprio:* ${fTranspProprio}
-*Transporte utilizado:* ${fTranspUtilizado}
+━━━━━━━━━━━━━━
 
-*ATIVIDADES DA VAGA*
+📞 CONTATO
 
-*Disposta a realizar todas as atividades relacionadas aos cuidados da criança:* ${fDispostaAtiv}
+WHATSAPP:
+${fWhatsapp}
 
-*SAÚDE*
+📱 REDE SOCIAL:
+${fSocial}
 
-*Possui limitação de saúde:* ${fProbSaude}
-*Descrição:* ${fDescLimitacao}
+━━━━━━━━━━━━━━
 
-*PRETENSÃO SALARIAL*
+🧸 EXPERIÊNCIA
 
-*Pretensão salarial:* ${fPretensao}
+JÁ TRABALHOU COMO BABÁ:
+${fTrabBaba}
 
-*CONFIRMAÇÕES*
+TEMPO:
+${fTempoExp}
 
-✓ Leu e aceitou as informações da vaga
-✓ Concordou com as responsabilidades
-✓ Compreendeu as regras de compromisso
-✓ Concordou com as regras de conduta
+━━━━━━━━━━━━━━
 
-Data do envio: ${dateStr}
-Hora do envio: ${timeStr}`;
+🚗 TRANSPORTE
+
+POSSUI TRANSPORTE PRÓPRIO:
+${fTranspProprio}
+
+MEIO UTILIZADO:
+${fTranspUtilizado}
+
+━━━━━━━━━━━━━━
+
+🍼 ATIVIDADES DA VAGA
+
+DISPOSTA A REALIZAR TODAS AS ATIVIDADES:
+${fDispostaAtiv}
+
+━━━━━━━━━━━━━━
+
+🏥 SAÚDE
+
+POSSUI LIMITAÇÃO:
+${fProbSaude}
+
+DESCRIÇÃO:
+${fDescLimitacao}
+
+━━━━━━━━━━━━━━
+
+💰 PRETENSÃO SALARIAL
+
+${fPretensao}
+
+━━━━━━━━━━━━━━
+
+✅ CONFIRMAÇÕES
+
+✓ LEU AS INFORMAÇÕES DA VAGA
+
+✓ ACEITOU AS RESPONSABILIDADES
+
+✓ ACEITOU AS CONDIÇÕES DE PONTUALIDADE
+
+✓ ACEITOU AS REGRAS DE CONDUTA
+
+✓ CONFIRMOU O ENVIO DA CANDIDATURA
+
+━━━━━━━━━━━━━━
+
+📅 DATA:
+${dateStr}
+
+🕒 HORA:
+${timeStr}`;
 
   const encodedMessage = encodeURIComponent(message);
   const waUrl = `https://wa.me/${number}?text=${encodedMessage}`;
