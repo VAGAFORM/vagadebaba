@@ -1,13 +1,936 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>Candidatura para Vaga de Babá</title>
+    <!-- Tailwind Play CDN for high-fidelity styled utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              sage: {
+                50: '#ebf1e9',
+                100: '#dae2d4',
+                200: '#c5d0c0',
+                300: '#a1b19a',
+                400: '#92aa8a',
+                500: '#74906e',
+                600: '#5a7055',
+                700: '#465542',
+                800: '#384336',
+                900: '#30392e',
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              poppins: ['Poppins', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <!-- Google Fonts: Inter & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Lucide Icons UMD CDN package for dynamic system-wide icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom styling stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="min-h-screen w-full flex flex-col p-4 md:p-6 bg-[#F5F5F5] font-sans">
+    
+    <!-- Centered Master Layout wrapper -->
+    <main class="w-full max-w-lg mx-auto mt-2 md:mt-4 mb-8 flex flex-col flex-1 justify-between">
+      
+      <div class="flex flex-col">
+        <!-- Discrete Top brand indicator -->
+        <div class="flex items-center justify-between px-2 mb-4">
+          <div class="flex items-center gap-1.5 py-1 text-sage-800 font-medium text-xs">
+            <i data-lucide="baby" class="w-4 h-4 text-sage-500"></i>
+            <span class="font-poppins font-medium">Formulário para babá</span>
+          </div>
+
+          <button
+            id="resetBtn"
+            type="button"
+            class="text-[11px] text-neutral-400 hover:text-red-500 font-semibold flex items-center gap-1 cursor-pointer transition-colors duration-150 py-1 hidden"
+            title="Apagar respostas e recomeçar"
+          >
+            <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+            <span>Recomeçar</span>
+          </button>
+        </div>
+
+        <!-- Central Elegance Card Container -->
+        <div class="bg-white rounded-none shadow-sm border border-neutral-200 overflow-hidden flex flex-col transition-all duration-300">
+          
+          <!-- Top Progress Bar - Spans entirely left to right -->
+          <div class="w-full bg-neutral-100 h-1.5 relative">
+            <div id="progressBar" class="bg-sage-400 h-1.5 w-0 transition-all duration-350 ease-out"></div>
+          </div>
+
+          <div class="p-6 md:p-8 flex-1 flex flex-col justify-between">
+            
+            <!-- Header Steps indicator -->
+            <header class="mb-6 flex justify-between items-center text-xs text-neutral-400 font-semibold border-b border-neutral-50 pb-3">
+              <span id="stepHeaderLabel" class="uppercase tracking-wider text-sage-600 font-semibold">
+                Termos e Condições
+              </span>
+              <span id="stepSubHeaderLabel">
+                Iniciando Processo
+              </span>
+            </header>
+
+            <!-- Steps Views Containers (0 to 12) -->
+            <section class="flex-1 flex flex-col justify-center min-h-[280px] md:min-h-[300px]">
+              
+              <!-- STEP 0: WELCOME -->
+              <div id="step-0" class="step-view text-center pt-2 pb-1">
+                <div class="w-20 h-20 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xs border border-sage-100">
+                  <i data-lucide="baby" class="w-10 h-10 text-sage-500"></i>
+                </div>
+                
+                <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-neutral-800 mb-4 font-poppins">
+                  Candidatura para Vaga de Babá
+                </h1>
+                
+                <p class="text-neutral-600 leading-relaxed max-w-md mx-auto text-sm md:text-base mb-4">
+                  Leia atentamente as informações da vaga e os termos apresentados nas próximas etapas.
+                </p>
+
+                <div class="bg-sage-50 border border-sage-100/80 rounded-xl p-4 text-left max-w-sm mx-auto flex items-start gap-3">
+                  <i data-lucide="info" class="w-5 h-5 text-sage-500 shrink-0 mt-0.5"></i>
+                  <span class="text-xs text-sage-800 leading-relaxed font-medium">
+                    O preenchimento é rápido e, no final, as respostas serão enviadas de forma organizada pelo seu WhatsApp direto para análise.
+                  </span>
+                </div>
+              </div>
+
+              <!-- STEP 1: ABOUT_JOB -->
+              <div id="step-1" class="step-view hidden space-y-6">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="info" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Sobre a vaga</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Conheça o local, horários e requisitos</p>
+                </div>
+
+                <div class="space-y-4">
+                  <!-- Local de trabalho -->
+                  <div class="flex items-start gap-3 p-3.5 bg-neutral-50 rounded-xl border border-neutral-100">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-sage-500 shrink-0 mt-0.5"></i>
+                    <div class="text-left">
+                      <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Local de trabalho</p>
+                      <p class="text-sm font-medium text-neutral-800 mt-0.5">Próximo ao parque da cidade</p>
+                    </div>
+                  </div>
+
+                  <!-- Criança -->
+                  <div class="flex items-start gap-3 p-3.5 bg-neutral-50 rounded-xl border border-neutral-100">
+                    <i data-lucide="baby" class="w-5 h-5 text-sage-500 shrink-0 mt-0.5"></i>
+                    <div class="text-left">
+                      <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Criança sob cuidados</p>
+                      <p class="text-sm font-medium text-neutral-800 mt-0.5">Menina de 2 anos de idade</p>
+                    </div>
+                  </div>
+
+                  <!-- Horários -->
+                  <div class="flex items-start gap-3 p-3.5 bg-neutral-50 rounded-xl border border-neutral-100">
+                    <i data-lucide="clock" class="w-5 h-5 text-sage-500 shrink-0 mt-1"></i>
+                    <div class="w-full text-left">
+                      <p class="text-xs font-semibold text-neutral-500 uppercase tracking-wider">Horário de trabalho</p>
+                      <div class="grid grid-cols-2 gap-2 mt-1.5 text-xs text-neutral-700">
+                        <div class="bg-white p-2 rounded-lg border border-neutral-100">
+                          <span class="font-semibold block text-neutral-500">Segunda a Sexta</span>
+                          <span class="font-medium text-neutral-800 text-sm mt-0.5 block">08h30 às 16h30</span>
+                        </div>
+                        <div class="bg-white p-2 rounded-lg border border-neutral-100">
+                          <span class="font-semibold block text-neutral-500">Sábado</span>
+                          <span class="font-medium text-neutral-800 text-sm mt-0.5 block">08h30 às 12h30</span>
+                        </div>
+                      </div>
+                      <div class="mt-2 text-xs bg-sage-50 text-sage-800 py-1 px-2.5 rounded-md inline-flex items-center gap-1.5 font-medium">
+                        <span class="w-1.5 h-1.5 bg-sage-500 rounded-full"></span>
+                        Domingo: Folga (em feriado será analisado possibilidade de folga)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-4 border-t border-neutral-100 text-left">
+                  <label class="flex items-start gap-3 cursor-pointer select-none group">
+                    <div class="relative flex items-center mt-0.5">
+                      <input
+                        type="checkbox"
+                        id="termsAcceptedVaga"
+                        class="peer appearance-none w-5 h-5 border border-neutral-350 rounded-md checked:bg-sage-400 checked:border-sage-400 focus:outline bg-white cursor-pointer transition-all duration-150"
+                      />
+                      <i data-lucide="check" class="absolute w-3.5 h-3.5 text-white pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 peer-checked:scale-100 transition-transform duration-150"></i>
+                    </div>
+                    <span class="text-sm text-neutral-700 leading-snug group-hover:text-neutral-900 transition-colors duration-155">
+                      Li e compreendi as informações da vaga.
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- STEP 2: RESPONSIBILITIES -->
+              <div id="step-2" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="award" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Responsabilidades da função</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Atividades e rotinas operacionais cotidianas</p>
+                </div>
+
+                <div class="bg-neutral-50 p-4 rounded-xl border border-neutral-100 text-left text-xs">
+                  <p class="font-medium text-neutral-600 mb-3 leading-relaxed">
+                    A profissional será responsável pelos cuidados da criança durante o horário de trabalho. As atividades incluem:
+                  </p>
+
+                  <ul class="space-y-2.5">
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-4.5 h-4.5 rounded-full bg-sage-50 flex items-center justify-center shrink-0 mt-0.5 border border-sage-100">
+                        <i data-lucide="check" class="w-3 h-3 text-sage-600"></i>
+                      </span>
+                      <span class="leading-snug">Cuidar da criança.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-4.5 h-4.5 rounded-full bg-sage-50 flex items-center justify-center shrink-0 mt-0.5 border border-sage-100">
+                        <i data-lucide="check" class="w-3 h-3 text-sage-600"></i>
+                      </span>
+                      <span class="leading-snug">Zelar pela segurança e bem-estar da criança.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-4.5 h-4.5 rounded-full bg-sage-50 flex items-center justify-center shrink-0 mt-0.5 border border-sage-100">
+                        <i data-lucide="check" class="w-3 h-3 text-sage-600"></i>
+                      </span>
+                      <span class="leading-snug">Preparar refeições simples para a criança quando necessário.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-4.5 h-4.5 rounded-full bg-sage-50 flex items-center justify-center shrink-0 mt-0.5 border border-sage-100">
+                        <i data-lucide="check" class="w-3 h-3 text-sage-600"></i>
+                      </span>
+                      <span class="leading-snug">Lavar roupas da criança quando necessário.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-4.5 h-4.5 rounded-full bg-sage-50 flex items-center justify-center shrink-0 mt-0.5 border border-sage-100">
+                        <i data-lucide="check" class="w-3 h-3 text-sage-600"></i>
+                      </span>
+                      <span class="leading-snug">Organizar brinquedos e objetos utilizados pela criança.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-4.5 h-4.5 rounded-full bg-sage-50 flex items-center justify-center shrink-0 mt-0.5 border border-sage-100">
+                        <i data-lucide="check" class="w-3 h-3 text-sage-600"></i>
+                      </span>
+                      <span class="leading-snug">Comunicar imediatamente qualquer situação relevante envolvendo a criança.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="pt-3 border-t border-neutral-100 text-left">
+                  <label class="flex items-start gap-3 cursor-pointer select-none group">
+                    <div class="relative flex items-center mt-0.5">
+                      <input
+                        type="checkbox"
+                        id="termsAcceptedResponsabilidades"
+                        class="peer appearance-none w-5 h-5 border border-neutral-350 rounded-md checked:bg-sage-400 checked:border-sage-400 focus:outline bg-white cursor-pointer transition-all duration-150"
+                      />
+                      <i data-lucide="check" class="absolute w-3.5 h-3.5 text-white pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 peer-checked:scale-100 transition-transform duration-150"></i>
+                    </div>
+                    <span class="text-sm text-neutral-700 leading-snug group-hover:text-neutral-900 transition-colors duration-155">
+                      Li e concordo com as responsabilidades da vaga.
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- STEP 3: PUNCTUALITY -->
+              <div id="step-3" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="calendar-days" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Pontualidade e compromisso</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Critérios de assiduidade e responsabilidade</p>
+                </div>
+
+                <div class="p-4 bg-orange-50/40 rounded-xl border border-orange-100 flex gap-3 text-left">
+                  <i data-lucide="alert-triangle" class="w-5 h-5 text-orange-600 shrink-0 mt-0.5"></i>
+                  <p class="text-xs text-orange-850 leading-relaxed font-semibold">
+                    O cuidado de uma criança exige máxima assiduidade. A pontualidade é indispensável para o bom andamento da rotina familiar.
+                  </p>
+                </div>
+
+                <div class="space-y-2 text-left text-xs">
+                  <div class="p-3 bg-neutral-50 rounded-lg border border-neutral-100 text-neutral-700 flex items-start gap-2.5">
+                    <span class="w-2 h-2 rounded-full bg-neutral-400 shrink-0 mt-1.5 animate-pulse"></span>
+                    <span class="leading-relaxed">Atrasos frequentes poderão comprometer a continuidade da contratação.</span>
+                  </div>
+                  <div class="p-3 bg-neutral-50 rounded-lg border border-neutral-100 text-neutral-700 flex items-start gap-2.5">
+                    <span class="w-2 h-2 rounded-full bg-neutral-400 shrink-0 mt-1.5"></span>
+                    <span class="leading-relaxed">Ausências devem ser comunicadas com antecedência sempre que possível.</span>
+                  </div>
+                  <div class="p-3 bg-neutral-50 rounded-lg border border-neutral-100 text-neutral-700 flex items-start gap-2.5">
+                    <span class="w-2 h-2 rounded-full bg-neutral-400 shrink-0 mt-1.5"></span>
+                    <span class="leading-relaxed">Dias não trabalhados poderão gerar desconto proporcional ao período não trabalhado.</span>
+                  </div>
+                  <div class="p-3 bg-neutral-50 rounded-lg border border-neutral-100 text-neutral-700 flex items-start gap-2.5">
+                    <span class="w-2 h-2 rounded-full bg-neutral-400 shrink-0 mt-1.5"></span>
+                    <span class="leading-relaxed">Faltas recorrentes poderão ser consideradas para a continuidade da contratação.</span>
+                  </div>
+                </div>
+
+                <div class="pt-3 border-t border-neutral-100 text-left">
+                  <label class="flex items-start gap-3 cursor-pointer select-none group">
+                    <div class="relative flex items-center mt-0.5">
+                      <input
+                        type="checkbox"
+                        id="termsAcceptedPontualidade"
+                        class="peer appearance-none w-5 h-5 border border-neutral-350 rounded-md checked:bg-sage-400 checked:border-sage-400 focus:outline bg-white cursor-pointer transition-all duration-150"
+                      />
+                      <i data-lucide="check" class="absolute w-3.5 h-3.5 text-white pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 peer-checked:scale-100 transition-transform duration-150"></i>
+                    </div>
+                    <span class="text-sm text-neutral-700 leading-snug group-hover:text-neutral-900 transition-colors duration-155">
+                      Li e compreendi as informações acima.
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- STEP 4: CONDUCT -->
+              <div id="step-4" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Conduta profissional</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Diretrizes éticas e boa convivência</p>
+                </div>
+
+                <div class="bg-neutral-50 rounded-xl border border-neutral-100 p-4 text-left text-xs">
+                  <p class="font-semibold text-neutral-500 uppercase tracking-wider mb-2.5 text-[10px]">Espera-se que a profissional:</p>
+                  <ul class="space-y-3">
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-5 h-5 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">1</span>
+                      <span class="leading-relaxed font-semibold">Trate a criança com respeito e paciência.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-5 h-5 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">2</span>
+                      <span class="leading-relaxed font-semibold">Não utilizar celular enquanto cuida da criança.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-5 h-5 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">3</span>
+                      <span class="leading-relaxed font-semibold">Não utilize agressão física ou verbal.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-5 h-5 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">4</span>
+                      <span class="leading-relaxed font-semibold">Não fume durante o período de trabalho.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-5 h-5 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">5</span>
+                      <span class="leading-relaxed font-semibold">Mantenha discrição sobre assuntos da família.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 text-neutral-700">
+                      <span class="w-5 h-5 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 text-[10px] font-bold mt-0.5">6</span>
+                      <span class="leading-relaxed font-semibold">Atue com honestidade e responsabilidade.</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="pt-3 border-t border-neutral-100 text-left">
+                  <label class="flex items-start gap-3 cursor-pointer select-none group">
+                    <div class="relative flex items-center mt-0.5">
+                      <input
+                        type="checkbox"
+                        id="termsAcceptedConduta"
+                        class="peer appearance-none w-5 h-5 border border-neutral-350 rounded-md checked:bg-sage-400 checked:border-sage-400 focus:outline bg-white cursor-pointer transition-all duration-150"
+                      />
+                      <i data-lucide="check" class="absolute w-3.5 h-3.5 text-white pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 peer-checked:scale-100 transition-transform duration-150"></i>
+                    </div>
+                    <span class="text-sm text-neutral-700 leading-snug group-hover:text-neutral-900 transition-colors duration-155">
+                      Li e concordo com as regras de conduta.
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- STEP 5: FORM_PERSONAL_DATA -->
+              <div id="step-5" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="user" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Dados Pessoais</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 1 de 8: Informações básicas</p>
+                </div>
+
+                <div class="space-y-4 text-left">
+                  <!-- Nome -->
+                  <div>
+                    <label for="nome" class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
+                      Nome Completo
+                    </label>
+                    <input
+                      id="nome"
+                      type="text"
+                      placeholder="Seu nome completo"
+                      class="w-full h-11 px-3.5 bg-white border border-neutral-300 rounded-xl focus:border-sage-400 focus:ring-1 focus:ring-sage-400 focus:outline-none text-sm text-neutral-800 placeholder-neutral-400 transition-all duration-150 shadow-xs"
+                    />
+                  </div>
+
+                  <!-- Idade & Bairro -->
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="sm:col-span-1">
+                      <label for="idade" class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
+                        Idade
+                      </label>
+                      <input
+                        id="idade"
+                        type="text"
+                        inputmode="numeric"
+                        placeholder="Idade"
+                        class="w-full h-11 px-3.5 bg-white border border-neutral-300 rounded-xl focus:border-sage-400 focus:ring-1 focus:ring-sage-400 focus:outline-none text-sm text-neutral-800 placeholder-neutral-400 transition-all duration-150 shadow-xs text-center"
+                      />
+                    </div>
+                    <div class="sm:col-span-2">
+                      <label for="bairro" class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
+                        Bairro onde mora
+                      </label>
+                      <input
+                        id="bairro"
+                        type="text"
+                        placeholder="Ex: Santíssimo..."
+                        class="w-full h-11 px-3.5 bg-white border border-neutral-300 rounded-xl focus:border-sage-400 focus:ring-1 focus:ring-sage-400 focus:outline-none text-sm text-neutral-800 placeholder-neutral-400 transition-all duration-150 shadow-xs"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Possui filhos? -->
+                  <div>
+                    <label class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
+                      Possui filhos?
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        id="possuiFilhosSim"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Sim
+                      </button>
+                      <button
+                        type="button"
+                        id="possuiFilhosNao"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Não
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Quantos filhos possui? (Dynamic panel managed via script) -->
+                  <div id="painelQtdFilhos" class="p-3 bg-neutral-50 rounded-xl border border-neutral-150 space-y-2 hidden">
+                    <label class="block text-xs font-semibold text-neutral-600 uppercase tracking-wide">
+                      Quantos filhos possui?
+                    </label>
+                    <div class="grid grid-cols-4 gap-2">
+                      <button type="button" data-count="1" class="btnQtdFilhos h-10 flex items-center justify-center rounded-lg border text-xs font-semibold transition-all duration-150 cursor-pointer border-neutral-250 bg-white hover:border-neutral-300 text-neutral-700">1</button>
+                      <button type="button" data-count="2" class="btnQtdFilhos h-10 flex items-center justify-center rounded-lg border text-xs font-semibold transition-all duration-150 cursor-pointer border-neutral-250 bg-white hover:border-neutral-300 text-neutral-700">2</button>
+                      <button type="button" data-count="3" class="btnQtdFilhos h-10 flex items-center justify-center rounded-lg border text-xs font-semibold transition-all duration-150 cursor-pointer border-neutral-250 bg-white hover:border-neutral-300 text-neutral-700">3</button>
+                      <button type="button" data-count="4 ou mais" class="btnQtdFilhos h-10 flex items-center justify-center rounded-lg border text-xs font-semibold transition-all duration-150 cursor-pointer border-neutral-250 bg-white hover:border-neutral-300 text-neutral-700">4+</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- STEP 6: FORM_CONTACT -->
+              <div id="step-6" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100 font-poppins">
+                    <i data-lucide="phone" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Canais de Contato</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 2 de 8: Telefone e redes sociais</p>
+                </div>
+
+                <div class="space-y-4 text-left">
+                  <div>
+                    <label for="whatsapp" class="flex items-center justify-between text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
+                      <span>Número do WhatsApp</span>
+                      <span class="text-[10px] text-sage-700 font-bold uppercase">Obrigatório</span>
+                    </label>
+                    <div class="relative">
+                      <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400">
+                        <i data-lucide="phone" class="w-4 h-4"></i>
+                      </span>
+                      <input
+                        id="whatsapp"
+                        type="tel"
+                        placeholder="(93) 99158-0000"
+                        class="w-full h-11 pl-10 pr-3.5 bg-white border border-neutral-300 rounded-xl focus:border-sage-400 focus:ring-1 focus:ring-sage-400 focus:outline-none text-sm text-neutral-800 placeholder-neutral-400 transition-all duration-150 shadow-xs"
+                      />
+                    </div>
+                    <p class="text-[10px] text-neutral-400 mt-1.5 leading-normal">
+                      Por favor, informe um número de WhatsApp válido com código de área (ex: DD 9XXXXXXXX).
+                    </p>
+                  </div>
+
+                  <div>
+                    <label for="redeSocial" class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-1.5">
+                      Rede social <span class="text-[10px] text-neutral-400 lowercase font-normal">(opcional)</span>
+                    </label>
+                    <input
+                      id="redeSocial"
+                      type="text"
+                      placeholder="@instagram ou facebook.com/perfil"
+                      class="w-full h-11 px-3.5 bg-white border border-neutral-300 rounded-xl focus:border-sage-400 focus:ring-1 focus:ring-sage-400 focus:outline-none text-sm text-neutral-800 placeholder-neutral-400 transition-all duration-150 shadow-xs"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- STEP 7: FORM_EXPERIENCE -->
+              <div id="step-7" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="briefcase" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Experiência Profissional</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 3 de 8: Histórico como babá</p>
+                </div>
+
+                <div class="space-y-4 text-left">
+                  <div>
+                    <label class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2.5">
+                      Já trabalhou como babá?
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        id="workedBabaSim"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Sim
+                      </button>
+                      <button
+                        type="button"
+                        id="workedBabaNao"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Não
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Tempo de experiência selection panel (Dynamic managed via script) -->
+                  <div id="painelTempoExperiencia" class="p-4 bg-neutral-50 rounded-xl border border-neutral-150 space-y-2 hidden">
+                    <label class="block text-xs font-semibold text-neutral-600 uppercase tracking-wide mb-1">
+                      Por quanto tempo trabalhou como babá?
+                    </label>
+                    <div class="grid grid-cols-1 gap-2">
+                      <button type="button" data-time="Menos de 6 meses" class="btnTempoExp h-10 px-3.5 flex items-center justify-between rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-700">
+                        <span>Menos de 6 meses</span>
+                        <i data-lucide="check" class="w-4 h-4 text-sage-600 hidden"></i>
+                      </button>
+                      <button type="button" data-time="De 6 meses a 1 ano" class="btnTempoExp h-10 px-3.5 flex items-center justify-between rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-700">
+                        <span>De 6 meses a 1 ano</span>
+                        <i data-lucide="check" class="w-4 h-4 text-sage-600 hidden"></i>
+                      </button>
+                      <button type="button" data-time="De 1 a 2 anos" class="btnTempoExp h-10 px-3.5 flex items-center justify-between rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-700">
+                        <span>De 1 a 2 anos</span>
+                        <i data-lucide="check" class="w-4 h-4 text-sage-600 hidden"></i>
+                      </button>
+                      <button type="button" data-time="De 2 a 3 anos" class="btnTempoExp h-10 px-3.5 flex items-center justify-between rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-700">
+                        <span>De 2 a 3 anos</span>
+                        <i data-lucide="check" class="w-4 h-4 text-sage-600 hidden"></i>
+                      </button>
+                      <button type="button" data-time="De 3 a 5 anos" class="btnTempoExp h-10 px-3.5 flex items-center justify-between rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-700">
+                        <span>De 3 a 5 anos</span>
+                        <i data-lucide="check" class="w-4 h-4 text-sage-600 hidden"></i>
+                      </button>
+                      <button type="button" data-time="Mais de 5 anos" class="btnTempoExp h-10 px-3.5 flex items-center justify-between rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-700">
+                        <span>Mais de 5 anos</span>
+                        <i data-lucide="check" class="w-4 h-4 text-sage-600 hidden"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- STEP 8: FORM_TRANSPORT -->
+              <div id="step-8" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="car" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Transporte e Mobilidade</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 4 de 8: Deslocamento até o trabalho</p>
+                </div>
+
+                <div class="space-y-4 text-left">
+                  <div>
+                    <label class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2.5">
+                      Possui transporte próprio?
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        id="transportProprioSim"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Sim
+                      </button>
+                      <button
+                        type="button"
+                        id="transportProprioNao"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-155 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Não
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="block text-xs font-semibold text-neutral-700 uppercase tracking-wider mb-2">
+                      Qual transporte utiliza para se locomover?
+                    </label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      <button type="button" data-trans="Moto" class="btnTransporte h-10 flex items-center justify-center rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-650">Moto</button>
+                      <button type="button" data-trans="Carro" class="btnTransporte h-10 flex items-center justify-center rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-650">Carro</button>
+                      <button type="button" data-trans="Bicicleta" class="btnTransporte h-10 flex items-center justify-center rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-650">Bicicleta</button>
+                      <button type="button" data-trans="Ônibus" class="btnTransporte h-10 flex items-center justify-center rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-650">Ônibus</button>
+                      <button type="button" data-trans="Aplicativo" class="btnTransporte h-10 flex items-center justify-center rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-650">Aplicativo</button>
+                      <button type="button" data-trans="Carona" class="btnTransporte h-10 flex items-center justify-center rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-650">Carona</button>
+                      <button type="button" data-trans="Outro" class="btnTransporte h-10 flex items-center justify-center rounded-lg border text-xs font-medium cursor-pointer border-neutral-250 bg-white text-neutral-650 col-span-2 sm:col-span-1">Outro</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- STEP 9: FORM_ACTIVITIES -->
+              <div id="step-9" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100 font-poppins">
+                    <i data-lucide="smile" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Atividades Gerais</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 5 de 8: Disponibilidade operacional</p>
+                </div>
+
+                <div class="p-4 bg-sage-50 rounded-xl border border-sage-100/50 text-left">
+                  <p class="text-xs md:text-sm text-neutral-750 font-medium leading-relaxed">
+                    Você está disposta a realizar todas as atividades relacionadas aos cuidados da criança, incluindo alimentação, roupas, brinquedos e organização dos itens da criança?
+                  </p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <button
+                    type="button"
+                    id="dispostaAtividadesSim"
+                    class="h-14 flex items-center justify-center rounded-xl border text-base font-semibold transition-all duration-150 cursor-pointer border-neutral-200 bg-white lg:hover:border-neutral-350 text-neutral-600"
+                  >
+                    Sim
+                  </button>
+                  <button
+                    type="button"
+                    id="dispostaAtividadesNao"
+                    class="h-14 flex items-center justify-center rounded-xl border text-base font-semibold transition-all duration-150 cursor-pointer border-neutral-200 bg-white lg:hover:border-neutral-350 text-neutral-600"
+                  >
+                    Não
+                  </button>
+                </div>
+              </div>
+
+              <!-- STEP 10: FORM_HEALTH -->
+              <div id="step-10" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100 font-poppins">
+                    <i data-lucide="stethoscope" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Condições de Saúde</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 6 de 8: Aptidão e limitações</p>
+                </div>
+
+                <div class="space-y-4 text-left">
+                  <div>
+                    <label class="block text-xs font-semibold text-neutral-700 uppercase tracking-wide leading-relaxed mb-1.5">
+                      Possui algum problema de saúde que possa dificultar os cuidados com uma criança de 2 anos ou as atividades da vaga?
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        id="healthProblemSim"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Sim
+                      </button>
+                      <button
+                        type="button"
+                        id="healthProblemNao"
+                        class="h-11 flex items-center justify-center rounded-xl border text-sm font-medium transition-all duration-150 cursor-pointer border-neutral-200 bg-white hover:border-neutral-300 hover:bg-neutral-50 text-neutral-600"
+                      >
+                        Não
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Textarea conditional details of limitation -->
+                  <div id="painelLimitacaoSaude" class="p-3 bg-neutral-50 rounded-xl border border-neutral-150 space-y-2 hidden">
+                    <label for="limitDescription" class="block text-xs font-semibold text-neutral-600 uppercase tracking-wide">
+                      Qual problema ou limitação?
+                    </label>
+                    <textarea
+                      id="limitDescription"
+                      rows="3"
+                      placeholder="Descreva detalhadamente sua limitação de saúde..."
+                      class="w-full p-3 bg-white border border-neutral-300 rounded-lg focus:border-sage-400 focus:ring-1 focus:ring-sage-400 focus:outline-none text-xs text-neutral-800 placeholder-neutral-400 transition-all duration-150 shadow-xs resize-none"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- STEP 11: FORM_SALARY -->
+              <div id="step-11" class="step-view hidden space-y-5">
+                <div class="text-center pb-2">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="dollar-sign" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Pretensão Salarial</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 7 de 8: Expectativa financeira</p>
+                </div>
+
+                <p class="text-xs text-neutral-500 text-center uppercase tracking-wider font-semibold">
+                  Qual sua pretensão salarial mensal?
+                </p>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+                  <button type="button" data-salary="R$ 800" class="btnPretensao h-12 flex flex-col items-center justify-center rounded-xl border transition-all duration-155 cursor-pointer border-neutral-200 bg-white text-neutral-600">
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest font-semibold scale-90 -mb-0.5">Mensal</span>
+                    <span class="text-sm font-semibold">R$ 800</span>
+                  </button>
+                  <button type="button" data-salary="R$ 900" class="btnPretensao h-12 flex flex-col items-center justify-center rounded-xl border transition-all duration-155 cursor-pointer border-neutral-200 bg-white text-neutral-650">
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest font-semibold scale-90 -mb-0.5">Mensal</span>
+                    <span class="text-sm font-semibold">R$ 900</span>
+                  </button>
+                  <button type="button" data-salary="R$ 1.000" class="btnPretensao h-12 flex flex-col items-center justify-center rounded-xl border transition-all duration-155 cursor-pointer border-neutral-200 bg-white text-neutral-650">
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest font-semibold scale-90 -mb-0.5">Mensal</span>
+                    <span class="text-sm font-semibold">R$ 1.000</span>
+                  </button>
+                  <button type="button" data-salary="R$ 1.100" class="btnPretensao h-12 flex flex-col items-center justify-center rounded-xl border transition-all duration-155 cursor-pointer border-neutral-200 bg-white text-neutral-650">
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest font-semibold scale-90 -mb-0.5">Mensal</span>
+                    <span class="text-sm font-semibold">R$ 1.100</span>
+                  </button>
+                  <button type="button" data-salary="R$ 1.200" class="btnPretensao h-12 flex flex-col items-center justify-center rounded-xl border transition-all duration-155 cursor-pointer border-neutral-200 bg-white text-neutral-650">
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest font-semibold scale-90 -mb-0.5">Mensal</span>
+                    <span class="text-sm font-semibold">R$ 1.200</span>
+                  </button>
+                  <button type="button" data-salary="R$ 1.300" class="btnPretensao h-12 flex flex-col items-center justify-center rounded-xl border transition-all duration-155 cursor-pointer border-neutral-200 bg-white text-neutral-650">
+                    <span class="text-xs text-neutral-400 uppercase tracking-widest font-semibold scale-90 -mb-0.5">Mensal</span>
+                    <span class="text-sm font-semibold">R$ 1.300</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- STEP 12: FORM_CONFIRMATION -->
+              <div id="step-12" class="step-view hidden space-y-5">
+                <div class="text-center pb-1">
+                  <div class="w-12 h-12 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-2 border border-sage-100">
+                    <i data-lucide="file-text" class="w-6 h-6 text-sage-500"></i>
+                  </div>
+                  <h2 class="text-xl font-semibold text-neutral-800">Leia atentamente</h2>
+                  <p class="text-xs text-neutral-500 mt-1">Etapa 8 de 8: Revisão e confirmação de dados</p>
+                </div>
+
+                <div class="bg-sage-50 border border-sage-100 p-4 rounded-xl text-left text-xs text-sage-850 leading-relaxed">
+                  <p class="font-semibold mb-1">Seu formulário foi preenchido com sucesso!</p>
+                  <p class>
+                    Revise as informações fornecidas e, quando estiver pronta, clique no botão abaixo para enviar sua candidatura diretamente ao contratante.
+                  </p>
+                  <p class="mt-1.5 opacity-90">
+                    Ao enviar, todas as respostas preenchidas e todos os termos aceitos durante o cadastro serão encaminhados automaticamente para análise.
+                  </p>
+                </div>
+
+                <!-- Review Accordion Box summarizing input responses -->
+                <div class="border border-neutral-200 rounded-xl max-h-52 overflow-y-auto bg-neutral-50/50 p-3.5 space-y-4 text-left">
+                  <p class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider border-b border-neutral-150 pb-1.5">Resumo das respostas fornecidas</p>
+                  
+                  <!-- Dados Pessoais -->
+                  <div class="space-y-2 text-xs">
+                    <p class="font-semibold text-neutral-800 flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 bg-sage-400 rounded-full"></span>
+                      Dados Pessoais
+                    </p>
+                    <div class="grid grid-cols-2 gap-y-1.5 gap-x-2 pl-3 text-neutral-600">
+                      <div><span class="font-medium text-neutral-400">Nome:</span> <span id="resNome">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Idade:</span> <span id="resIdade">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Bairro:</span> <span id="resBairro">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Filhos:</span> <span id="resFilhos">Não</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Canais de Contato -->
+                  <div class="space-y-2 text-xs">
+                    <p class="font-semibold text-neutral-800 flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 bg-sage-400 rounded-full"></span>
+                      Canais de Contato
+                    </p>
+                    <div class="grid grid-cols-2 gap-y-1.5 gap-x-2 pl-3 text-neutral-600">
+                      <div><span class="font-medium text-neutral-400">WhatsApp:</span> <span id="resWhatsapp">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Rede Social:</span> <span id="resRedeSocial">-</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Trabalho e Transporte -->
+                  <div class="space-y-2 text-xs">
+                    <p class="font-semibold text-neutral-800 flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 bg-sage-400 rounded-full"></span>
+                      Experiência & Transporte
+                    </p>
+                    <div class="grid grid-cols-2 gap-y-1.5 gap-x-2 pl-3 text-neutral-600">
+                      <div class="col-span-2"><span class="font-medium text-neutral-400">Exp. já trabalhou:</span> <span id="resExpBaba">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Transporte Próprio:</span> <span id="resTranspProprio">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Utiliza:</span> <span id="resTranspUtilizado">-</span></div>
+                    </div>
+                  </div>
+
+                  <!-- Atividades e Saúde -->
+                  <div class="space-y-2 text-xs">
+                    <p class="font-semibold text-neutral-800 flex items-center gap-1.5">
+                      <span class="w-1.5 h-1.5 bg-sage-400 rounded-full"></span>
+                      Tarefas & Condição de Saúde
+                    </p>
+                    <div class="grid grid-cols-1 gap-y-1.5 pl-3 text-neutral-600">
+                      <div><span class="font-medium text-neutral-400">Disposta a atividades:</span> <span id="resDispostaAtiv">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Apresenta limitação:</span> <span id="resProbSaude">-</span></div>
+                      <div><span class="font-medium text-neutral-400">Pretensão salarial:</span> <span id="resPretensaoSalarial">-</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-3 border-t border-neutral-100 text-left">
+                  <label class="flex items-start gap-3 cursor-pointer select-none group">
+                    <div class="relative flex items-center mt-0.5">
+                      <input
+                        type="checkbox"
+                        id="revisaoConfirmada"
+                        class="peer appearance-none w-5 h-5 border border-neutral-350 rounded-md checked:bg-sage-400 checked:border-sage-400 focus:outline bg-white cursor-pointer transition-all duration-150"
+                      />
+                      <i data-lucide="check" class="absolute w-3.5 h-3.5 text-white pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-0 peer-checked:scale-100 transition-transform duration-150"></i>
+                    </div>
+                    <span class="text-sm font-medium text-neutral-750 group-hover:text-neutral-900 transition-colors duration-155">
+                      Confirmo que revisei minhas informações e desejo enviar minha candidatura.
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+            </section>
+
+            <!-- Footer Card Action Navigation buttons -->
+            <footer id="navFooter" class="pt-4 border-t border-neutral-100 flex items-center justify-between gap-3 mt-4">
+              <!-- Back button -->
+              <button
+                type="button"
+                id="backBtn"
+                class="h-11 px-4 rounded-none border border-neutral-250 text-neutral-600 font-medium text-sm flex items-center justify-center gap-1.5 hover:bg-neutral-50 active:scale-95 transition-all duration-150 cursor-pointer hidden"
+              >
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                <span>Voltar</span>
+              </button>
+              
+              <div id="backSpacer" class="w-5 h-5 flex-1 max-w-[20px]"></div>
+
+              <!-- Next/Action step button -->
+              <button
+                type="button"
+                id="nextBtn"
+                class="h-11 px-5 rounded-none text-white font-medium text-sm flex items-center justify-center gap-2 cursor-pointer transition-all duration-200 shadow-xs active:scale-97 flex-1 xs:flex-initial bg-sage-400 hover:bg-sage-500 shadow-sage-200/50"
+              >
+                <span id="nextBtnText">Começar</span>
+                <i id="btnIcon" data-lucide="chevron-right" class="w-4 h-4 shrink-0"></i>
+              </button>
+            </footer>
+
+          </div>
+        </div>
+
+        <!-- Dynamic Trust footer with security badge -->
+        <p class="text-center text-[11px] text-neutral-400 mt-5 flex items-center justify-center gap-1">
+          <i data-lucide="lock" class="w-3 h-3 text-neutral-400"></i>
+          <span>Suas respostas são enviadas diretamente de ponta a ponta pelo WhatsApp.</span>
+        </p>
+
+      </div>
+
+      <!-- Compact page footer -->
+      <footer class="w-full text-center text-[10px] text-neutral-350 py-4 font-sans tracking-wide">
+        © 2026 VAGAFORM
+      </footer>
+    </main>
+
+    <!-- Successfully Completed Modal Popup Overlay -->
+    <div id="successModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-none p-6 md:p-8 max-w-sm w-full text-center shadow-xl border border-neutral-200">
+        
+        <div class="w-16 h-16 bg-sage-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-sage-100">
+          <i data-lucide="check-circle-2" class="w-9 h-9 text-sage-500"></i>
+        </div>
+
+        <h3 class="text-lg font-semibold text-neutral-800 font-poppins mb-2">
+          Quase lá!
+        </h3>
+        
+        <p class="text-xs text-neutral-500 leading-relaxed mb-6">
+          Estamos abrindo o seu WhatsApp para que você possa enviar o formulário preenchido. Caso a conversa não abra automaticamente, clique no botão abaixo.
+        </p>
+
+        <div class="space-y-2.5">
+          <button
+            type="button"
+            id="reopenWaBtn"
+            class="w-full h-11 bg-sage-400 hover:bg-sage-500 text-white font-medium rounded-none text-sm transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-98"
+          >
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Reabrir WhatsApp</span>
+          </button>
+
+          <button
+            type="button"
+            id="closeModalBtn"
+            class="w-full h-10 border border-neutral-250 hover:bg-neutral-50 text-neutral-650 font-medium rounded-none text-xs transition-all duration-150 cursor-pointer"
+          >
+            Voltar ao site
+          </button>
+        </div>
+
+        <div class="mt-5 pt-3.5 border-t border-neutral-100 justify-center flex items-center gap-1 text-[10px] text-neutral-400">
+          <span>Feito com</span>
+          <i data-lucide="heart" class="w-3 h-3 text-red-500 fill-red-500"></i>
+          <span>para facilitar seu cadastro</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Core State Controller and dynamic render scripts -->
+    <script src="./script.js"></script>
+    <script>
+      // Boot elements and Lucide Icons once DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      });
+    </script>
   </body>
 </html>
-

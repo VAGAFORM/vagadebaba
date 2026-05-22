@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap');
+
+html {
+  font-size: 17.5px;
+}
+
+body {
+  background-color: #f5f5f5;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Accent element font family settings */
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom list scrollbar styling for review card steps (Step 12) */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5d0c0; 
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1b19a; 
+}
+
+/* Custom Fade Transition and Active View states */
+.step-view {
+  animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal and modal overlay fade-in style */
+#successModal {
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* Soft scale pop for success badge inside the modals */
+.animate-wiggle {
+  animation: wigglePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes wigglePop {
+  0% {
+    transform: scale(0.65) rotate(-10deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.08) rotate(3deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Transition speedups */
+button, input, textarea {
+  transition: all 150ms ease-in-out;
+}
+
+button:active {
+  transform: scale(0.98);
+}
