@@ -1107,6 +1107,50 @@
       </div>
     </div>
 
+    <!-- Incompatible Activities (Atividades) Modal -->
+    <div id="activitiesModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-2xl p-6 md:p-8 max-w-sm w-full text-center shadow-xl border border-neutral-200">
+        <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-100">
+          <i data-lucide="alert-triangle" class="w-7 h-7 text-red-500"></i>
+        </div>
+        <h3 class="text-base font-bold text-neutral-800 font-poppins mb-3">
+          Candidatura não compatível
+        </h3>
+        <p class="text-xs md:text-sm text-neutral-600 leading-relaxed mb-6 font-medium">
+          Para esta vaga é necessário estar disposta a realizar todas as atividades relacionadas aos cuidados da criança.<br /><br />Agradecemos seu interesse.
+        </p>
+        <button
+          type="button"
+          id="closeActivitiesModalBtn"
+          class="w-full h-11 bg-neutral-800 hover:bg-neutral-900 text-white font-semibold rounded-xl text-sm transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-98"
+        >
+          <span>Fechar</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Incompatible Health Modal -->
+    <div id="healthModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-2xl p-6 md:p-8 max-w-sm w-full text-center shadow-xl border border-neutral-200">
+        <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-100">
+          <i data-lucide="alert-triangle" class="w-7 h-7 text-red-500"></i>
+        </div>
+        <h3 class="text-base font-bold text-neutral-800 font-poppins mb-3">
+          Candidatura não compatível
+        </h3>
+        <p class="text-xs md:text-sm text-neutral-600 leading-relaxed mb-6 font-medium">
+          No momento esta vaga exige disponibilidade física compatível com os cuidados necessários da criança.<br /><br />Agradecemos seu interesse.
+        </p>
+        <button
+          type="button"
+          id="closeHealthModalBtn"
+          class="w-full h-11 bg-neutral-800 hover:bg-neutral-900 text-white font-semibold rounded-xl text-sm transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-98"
+        >
+          <span>Fechar</span>
+        </button>
+      </div>
+    </div>
+
     <!-- Core State Controller and dynamic render scripts -->
     <script src="./script.js"></script>
     <script>

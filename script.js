@@ -104,7 +104,7 @@ function validateCurrentStep() {
     case 8: // FORM_TRANSPORT
       return data.possuiTransporteProprio !== '' && data.transporteUtilizado !== '';
     case 9: // FORM_ACTIVITIES
-      return data.dispostaAtividades !== '';
+      return data.dispostaAtividades === 'Sim';
     case 10: // FORM_HEALTH
       return data.possuiProblemaSaude === 'Não';
     case 11: // FORM_SALARY
@@ -375,105 +375,47 @@ function sendApplicationToWhatsApp() {
   const number = '5593996589790';
 
   const fNome = (data.nome || '').trim().toUpperCase();
-  const rawIdade = (data.idade || '').trim().toUpperCase();
-  const fIdade = /^\d+$/.test(rawIdade) ? rawIdade + ' ANOS' : rawIdade;
+  const fIdade = (data.idade || '').trim().toUpperCase();
   const fBairro = (data.bairro || '').trim().toUpperCase();
-  const fFilhos = (data.possuiFilhos || '').trim().toUpperCase();
-  const fQtdFilhos = (data.possuiFilhos === 'Sim' ? (data.quantidadeFilhos || '') : 'NÃO SE APLICA').trim().toUpperCase();
-  const fWhatsapp = (data.whatsapp || '').trim().toUpperCase();
+  
+  let fFilhos = (data.possuiFilhos || '').trim().toUpperCase();
+  if (fFilhos === 'SIM' && data.quantidadeFilhos) {
+    fFilhos = `SIM (${data.quantidadeFilhos.trim().toUpperCase()})`;
+  }
+
+  const fWhatsapp = data.whatsapp.replace(/\D/g, '');
   const fSocial = ((data.redeSocial || '').trim() || 'NÃO INFORMADA').toUpperCase();
-  const fTrabBaba = (data.trabalhouComoBaba || '').trim().toUpperCase();
-  const fTempoExp = (data.trabalhouComoBaba === 'Sim' ? (data.tempoExperiencia || '') : 'NÃO SE APLICA').trim().toUpperCase();
-  const fTranspProprio = (data.possuiTransporteProprio || '').trim().toUpperCase();
-  const fTranspUtilizado = (data.possuiTransporteProprio === 'Sim' ? (data.transporteUtilizado || '') : 'NÃO SE APLICA').trim().toUpperCase();
-  const fDispostaAtiv = (data.dispostaAtividades || '').trim().toUpperCase();
+
+  let fExp = (data.trabalhouComoBaba || '').trim().toUpperCase();
+  if (fExp === 'SIM' && data.tempoExperiencia) {
+    fExp = `SIM (${data.tempoExperiencia.trim().toUpperCase()})`;
+  }
+
+  const fTransp = (data.transporteUtilizado || '').trim().toUpperCase();
   const fPretensao = (data.pretensaoSalarial || '').trim().toUpperCase();
 
   const dateStr = new Date().toLocaleDateString('pt-BR').toUpperCase();
   const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }).toUpperCase();
 
   const message = `👶 NOVA CANDIDATA PARA BABÁ
+────────────
+👤 NOME: ${fNome}
+🎂 IDADE: ${fIdade}
+📍 BAIRRO: ${fBairro}
+👨👩👧 FILHOS: ${fFilhos}
+────────────
+📱 WHATSAPP: ${fWhatsapp}
+🌐 REDE SOCIAL: ${fSocial}
+────────────
+🧸 EXPERIÊNCIA COMO BABÁ: ${fExp}
+────────────
+🚗 TRANSPORTE: ${fTransp}
+────────────
+💰 PRETENSÃO SALARIAL: ${fPretensao}
+────────────
 
-━━━━━━━━━━━━━━
-
-👤 DADOS PESSOAIS
-
-NOME:
-${fNome}
-
-IDADE:
-${fIdade}
-
-📍 BAIRRO:
-${fBairro}
-
-👨👩👧 FILHOS:
-${fFilhos}
-
-QUANTIDADE:
-${fQtdFilhos}
-
-━━━━━━━━━━━━━━
-
-📞 CONTATO
-
-📱 WHATSAPP:
-${fWhatsapp}
-
-📱 REDE SOCIAL:
-${fSocial}
-
-━━━━━━━━━━━━━━
-
-🧸 EXPERIÊNCIA
-
-👶 EXPERIÊNCIA COMO BABÁ:
-${fTrabBaba}
-
-TEMPO:
-${fTempoExp}
-
-━━━━━━━━━━━━━━
-
-🚗 TRANSPORTE
-
-🚗 TRANSPORTE:
-${fTranspProprio}
-
-MEIO UTILIZADO:
-${fTranspUtilizado}
-
-━━━━━━━━━━━━━━
-
-🍼 ATIVIDADES DA VAGA
-
-✅ DISPOSTA A REALIZAR AS ATIVIDADES:
-${fDispostaAtiv}
-
-━━━━━━━━━━━━━━
-
-💰 PRETENSÃO SALARIAL
-
-💰 PRETENSÃO SALARIAL:
-${fPretensao}
-
-━━━━━━━━━━━━━━
-
-📋 CONFIRMAÇÕES
-
-✅ LEU AS INFORMAÇÕES DA VAGA
-✅ ACEITOU AS RESPONSABILIDADES
-✅ ACEITOU AS REGRAS DE COMPROMISSO
-✅ ACEITOU AS REGRAS DE CONDUTA
-✅ CONFIRMOU O ENVIO DA CANDIDATURA
-
-━━━━━━━━━━━━━━
-
-📅 DATA:
-${dateStr}
-
-🕒 HORA:
-${timeStr}`;
+📅 DATA: ${dateStr}
+🕒 HORA: ${timeStr}`;
 
   const encodedMessage = encodeURIComponent(message);
   const waUrl = `https://wa.me/${number}?text=${encodedMessage}`;
@@ -680,6 +622,8 @@ function setupEventListeners() {
     syncFormFieldsWithData();
     toggleNextButtonState();
     persistState();
+    const modal = document.getElementById('activitiesModal');
+    if (modal) modal.classList.remove('hidden');
   });
 
   // Step 10 Health Conditions
@@ -688,6 +632,8 @@ function setupEventListeners() {
     syncFormFieldsWithData();
     toggleNextButtonState();
     persistState();
+    const modal = document.getElementById('healthModal');
+    if (modal) modal.classList.remove('hidden');
   });
 
   document.getElementById('healthProblemNao').addEventListener('click', () => {
@@ -722,6 +668,21 @@ function setupEventListeners() {
   document.getElementById('closeModalBtn').addEventListener('click', () => {
     document.getElementById('successModal').classList.add('hidden');
   });
+
+  // Incompatibility Modals closing
+  const closeActivitiesModalBtn = document.getElementById('closeActivitiesModalBtn');
+  if (closeActivitiesModalBtn) {
+    closeActivitiesModalBtn.addEventListener('click', () => {
+      document.getElementById('activitiesModal').classList.add('hidden');
+    });
+  }
+
+  const closeHealthModalBtn = document.getElementById('closeHealthModalBtn');
+  if (closeHealthModalBtn) {
+    closeHealthModalBtn.addEventListener('click', () => {
+      document.getElementById('healthModal').classList.add('hidden');
+    });
+  }
 }
 
 // Main initializer
