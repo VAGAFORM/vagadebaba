@@ -672,22 +672,42 @@ function setupEventListeners() {
   // Incompatibility Modals closing
   const closeActivitiesModalBtn = document.getElementById('closeActivitiesModalBtn');
   if (closeActivitiesModalBtn) {
-    closeActivitiesModalBtn.addEventListener('click', () => {
+    closeActivitiesModalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       document.getElementById('activitiesModal').classList.add('hidden');
     });
   }
 
   const closeHealthModalBtn = document.getElementById('closeHealthModalBtn');
   if (closeHealthModalBtn) {
-    closeHealthModalBtn.addEventListener('click', () => {
+    closeHealthModalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       document.getElementById('healthModal').classList.add('hidden');
     });
   }
 }
 
-// Main initializer
-window.addEventListener('load', () => {
+// Robust Initializer
+function initializeApp() {
   loadSavedState();
   setupEventListeners();
   navigateToStep(currentStepIndex);
-});
+
+  // Extra layer of event delegation for the incompatibility modals to guarantee closing
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('#closeActivitiesModalBtn, #closeHealthModalBtn');
+    if (target) {
+      e.preventDefault();
+      const activitiesModal = document.getElementById('activitiesModal');
+      const healthModal = document.getElementById('healthModal');
+      if (activitiesModal) activitiesModal.classList.add('hidden');
+      if (healthModal) healthModal.classList.add('hidden');
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  initializeApp();
+}
